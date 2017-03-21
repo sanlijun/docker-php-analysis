@@ -1,0 +1,6 @@
+{
+    "name": "pfap/php",
+    "require-dev": {
+        "phpmd/phpmd": "*"
+    }
+}
