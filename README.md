@@ -8,6 +8,9 @@ Docker-PHP-Analysis is a PHP Static Code Analysis Tool.
 - [PHPMD](https://github.com/phpmd/phpmd)
 - [PhpMetrics](https://github.com/phpmetrics/PhpMetrics)
 
+## Install dependency tools
+- [whalebrew](https://github.com/bfirsh/whalebrew)
+
 ## Getting Started
 
 ```bash
@@ -21,8 +24,28 @@ $ cp -r {your project} src/
 ## phan
 
 ```bash
+For dokcer
+
+# Building
 $ docker build -t phantool ./phan
-$ docker run --rm --volume `pwd`/src:/var/www/html phantool /bin/bash -c 'find ./{your project src} -name "*.php" -type f | xargs /tools/vendor/bin/phan > _report/phan.log'
+
+# Analyzing
+$ docker run -it -v "$(pwd)":/workdir phantool -l ./src/{your project src} > ./src/_report/phan.log
+
+
+# Debugging
+$ docker run --rm -v "$(pwd)":/workdir -it --entrypoint=bash phantool
+```
+
+```bash
+For whalebrew
+
+# install(local docker image)
+$ docker build -t phantool ./phan
+$ whalebrew install phantool
+
+# Analyzing
+$ phan -l ./src/{your project src} > ./src/_report/phan.log
 ```
 
 Open Your Editor `src/_report/phan.log`
@@ -30,8 +53,28 @@ Open Your Editor `src/_report/phan.log`
 ## PHPMD
 
 ```bash
+For dokcer
+
+# Building
 $ docker build -t phpmdtool ./phpmd
-$ docker run --rm --volume `pwd`/src:/var/www/html phpmdtool /bin/bash -c '/tools/vendor/bin/phpmd --strict ./{your project src} text cleancode,codesize,controversial,design,naming,unusedcode > _report/phpmd.log'
+
+# Analyzing
+$ docker run -it -v "$(pwd)":/workdir phpmdtool --strict ./src/{your project src} text cleancode,codesize,controversial,design,naming,unusedcode > ./src/_report/phpmd.log
+
+
+# Debugging
+$ docker run --rm -v "$(pwd)":/workdir -it --entrypoint=bash phpmdtool
+```
+
+```bash
+For whalebrew
+
+# install(local docker image)
+$ docker build -t phpmdtool ./phpmd
+$ whalebrew install phpmdtool
+
+# Analyzing
+$ phpmd  --strict ./src/{your project src} text cleancode,codesize,controversial,design,naming,unusedcode > ./src/_report/phpmd.log
 ```
 
 Open Your Editor `src/_report/phpmd.log`
@@ -39,8 +82,28 @@ Open Your Editor `src/_report/phpmd.log`
 ## PhpMetrics
 
 ```bash
+For dokcer
+
+# Building
 $ docker build -t phpmetricstool ./phpmetrics
-$ docker run --rm --volume `pwd`/src:/var/www/html phpmetricstool /bin/bash -c '/tools/vendor/bin/phpmetrics  --report-html=./_report/phpmetrics ./{your project src}'
+
+# Analyzing
+$ docker run -it -v "$(pwd)":/workdir phpmetricstool --report-html=./src/_report/phpmetrics ./src/{your project src}
+
+
+# Debugging
+$ docker run --rm -v "$(pwd)":/workdir -it --entrypoint=bash phpmetricstool
+```
+
+```bash
+For whalebrew
+
+# install(local docker image)
+$ docker build -t phpmetricstool ./phpmetrics
+$ whalebrew install phpmetricstool
+
+# Analyzing
+$ phpmetrics --report-html=./src/_report/phpmetrics ./src/{your project src}
 ```
 
 Open Your Browser `src/_report/phpmetrics/index.html`
