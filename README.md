@@ -7,6 +7,7 @@ Docker-PHP-Analysis is a PHP Static Code Analysis Tool.
 - [phan](https://github.com/etsy/phan)
 - [PHPMD](https://github.com/phpmd/phpmd)
 - [PhpMetrics](https://github.com/phpmetrics/PhpMetrics)
+- [Security-Checker](https://github.com/sensiolabs/security-checker)
 
 ## Install dependency tools
 - [whalebrew](https://github.com/bfirsh/whalebrew)
@@ -107,3 +108,34 @@ $ phpmetrics --report-html=./src/_report/phpmetrics ./src/{your project src}
 ```
 
 Open Your Browser `src/_report/phpmetrics/index.html`
+
+## Security-Checker
+
+```bash
+For dokcer
+
+# Building
+$ docker build -t sctool ./securitychecker
+
+# Analyzing
+$ docker run -it -v "$(pwd)":/workdir sctool security:check ./src/{your project}/composer.lock > ./src/_report/security-checker.log
+
+
+docker run -it -v "$(pwd)":/workdir sctool security:check ./src/gear/composer.lock > ./src/_report/security-checker.log
+
+# Debugging
+$ docker run --rm -v "$(pwd)":/workdir -it --entrypoint=bash sctool
+```
+
+```bash
+For whalebrew
+
+# install(local docker image)
+$ docker build -t sctool ./securitychecker
+$ whalebrew install sctool
+
+# Analyzing
+$ security-checker security:check ./src/{your project}/composer.lock > ./src/_report/security-checker.log
+```
+
+Open Your Editor `src/_report/security-checker.log`
