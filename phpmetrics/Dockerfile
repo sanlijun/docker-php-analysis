@@ -14,4 +14,10 @@ RUN mkdir ${composerDir}
 COPY ./composer.json ${composerDir}
 RUN cd ${composerDir} && composer update
 
-WORKDIR /var/www/html
+# for whalebrew
+LABEL io.whalebrew.name 'phpmetrics'
+
+WORKDIR /workdir
+
+ENTRYPOINT ["/tools/vendor/bin/phpmetrics"]
+CMD ["-h"]
